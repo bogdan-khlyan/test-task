@@ -19,10 +19,10 @@ function findMin(array) {
 
 function findMinPositive(array) {
     const min = {}
-    min.index = array.findIndex(item => item >= 0)
+    min.index = array.findIndex(item => item > 0)
     min.value = array[min.index]
     for (let i = min.index; i < array.length; ++i) {
-        if (array[i] >= 0 && array[i] < min.value) {
+        if (array[i] > 0 && array[i] < min.value) {
             min.index = i
             min.value = array[i]
         }
