@@ -11,35 +11,6 @@ for (let i = 0; i < 10; ++i) {
     array.push(arr)
 }
 
-
-const mins = array.map(item => Math.min.apply(null, item))
-let min = findMin(mins)
-
-
-const quantityToReplace = []
-array.forEach(line => {
-    let count = 0
-    for (let i = 1; i < 9; ++i) {
-        const current = Math.sign(line[i])
-        const prev = Math.sign(line[i - 1])
-        const next = Math.sign(line[i + 1])
-
-        if (current === prev && current === next && next === prev) {
-            let temp = 3
-            for (let j = i + 1; j < 10; ++j) {
-                if (Math.sign(line[j]) === current) {
-                    ++temp
-                    ++i
-                } else {
-                    break
-                }
-            }
-            count += Math.trunc(temp / 3)
-        }
-    }
-    quantityToReplace.push(count)
-})
-
 printArray(array)
 
 function printArray(array) {
@@ -47,6 +18,12 @@ function printArray(array) {
     console.log(`${colors.BgRed}00${colors.Reset} - минимальное число в матрице;`)
     console.log(`${colors.BgGreen}00${colors.Reset} - наименьшее положительное число в строке`)
     console.log('\n')
+    const min = findMin(
+        array.map(item =>
+            Math.min.apply(null, item)
+        )
+    )
+    const quantityToReplace = getQuantityToReplace()
     let result = '['
     for (let i = 0; i < 10; ++i) {
         result += '\n\t['
@@ -98,3 +75,29 @@ function prepareItem(item, i, j, min, minPositive) {
     }
 }
 
+function getQuantityToReplace() {
+    const quantityToReplace = []
+    array.forEach(line => {
+        let count = 0
+        for (let i = 1; i < 9; ++i) {
+            const current = Math.sign(line[i])
+            const prev = Math.sign(line[i - 1])
+            const next = Math.sign(line[i + 1])
+
+            if (current === prev && current === next && next === prev) {
+                let temp = 3
+                for (let j = i + 1; j < 10; ++j) {
+                    if (Math.sign(line[j]) === current) {
+                        ++temp
+                        ++i
+                    } else {
+                        break
+                    }
+                }
+                count += Math.trunc(temp / 3)
+            }
+        }
+        quantityToReplace.push(count)
+    })
+    return quantityToReplace
+}
